@@ -10,7 +10,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Http\Request;
 use Pusher\Pusher;
-
+use Encore\Admin\Facades\Admin as AdminUser;
 class TeachersController extends AdminController
 {
     /**
@@ -38,7 +38,7 @@ class TeachersController extends AdminController
             if($status==1) {
                 return "<span style='color: green'>已经通过</span>";
             }else{
-                return  "<button id='pass' data-id='$this->id'>审核</button>";
+                return  "<button class='pass' data-id='$this->id'>审核</button>";
             }
         });
         $grid->column('role', __('Role'))->display(function ($role) {
@@ -49,7 +49,7 @@ class TeachersController extends AdminController
         // 添加发消息按钮
         $grid->column('发消息')->display(function () {
 
-            return  "<button id='send' data-id='$this->id'>发消息</button>";
+            return  "<button class='send' data-id='$this->id'>发消息</button>";
         });
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             // 去掉编辑
@@ -70,7 +70,7 @@ class TeachersController extends AdminController
 
 
 
-        $('#pass').unbind('click').click(function() {
+        $('.pass').unbind('click').click(function() {
             var id = $(this).data('id');
             swal({
                 title: "确认同意该用户的申请吗？",
@@ -97,12 +97,13 @@ class TeachersController extends AdminController
                 }
             });
         });
-        $('#send').unbind('click').click(function() {
+        $('.send').unbind('click').click(function() {
             var student_id = $(this).data('id');
             message=prompt("请输入消息");
             data={
                 'message':message,
                 'student_id':student_id,
+                '_token': LA.token
                 
             };
             $.ajax({
@@ -192,8 +193,8 @@ EOT;
     public function sendMessage(Request $request)
     {
         $message = $request->message;
-        $targetStudentId = $request->targetStudentId;
-        $fromManagerId =Admin::user()->id;
+        $targetStudentId = $request->student_id;
+        $fromManagerId =AdminUser::user()->id;
         $options = [
             'cluster' => env('PUSHER_APP_CLUSTER'),
             'useTLS' => true
