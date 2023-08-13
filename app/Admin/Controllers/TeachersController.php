@@ -115,7 +115,6 @@ class TeachersController extends AdminController
                    
                     if(data.code){
                         swal(data.msg, '', 'success');
-                        $.pjax.reload('#pjax-container');
                     }else{
                         swal(data.msg, '', 'error');
                     }
@@ -213,7 +212,7 @@ EOT;
             'fromManagerId' => $fromManagerId
         ]);
 
-        return response()->json(['message' => 'Message sent successfully']);
+        return response()->json(['msg' => 'Message sent successfully','code'=>1]);
     }
 
 }
