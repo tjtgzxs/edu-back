@@ -10,6 +10,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Pusher\Pusher;
 use Encore\Admin\Facades\Admin as AdminUser;
 class TeachersController extends AdminController
@@ -177,6 +178,7 @@ EOT;
         )->default(2)->rules("required|min:1");
         $form->hidden('name');
         $form->saving(function (Form $form){
+            $form->password=Hash::make($form->password);
             $form->name=$form->email;
         });
         $form->multipleSelect('schools',__('学校'))->required()->rules('required')->options(School::all()->pluck('name','id'));

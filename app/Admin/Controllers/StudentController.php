@@ -8,6 +8,7 @@ use Encore\Admin\Controllers\AdminController;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
+use Illuminate\Support\Facades\Hash;
 
 class StudentController extends AdminController
 {
@@ -89,6 +90,7 @@ class StudentController extends AdminController
         $form->password('password', __('Password'));
         $form->hidden('name');
         $form->saving(function (Form $form){
+            $form->password=Hash::make($form->password);
             $form->name=$form->account;
         });
         $form->select('school_id',__('学校'))->required()->rules('required')->options(School::all()->pluck('name','id'));
