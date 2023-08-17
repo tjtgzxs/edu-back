@@ -28,10 +28,10 @@ class RefreshTokenMiddleware extends BaseMiddleware
         $this->checkForToken($request);
 
         try {
-            if ($this->auth->parseToken()->authenticate()) {
+            if ($this->auth->parseToken()) {
                 return $next($request);
             }
-            return \response()->json(['result'=>$this->auth->parseToken()->authenticate()]);
+//            return \response()->json(['result'=>$this->auth->parseToken()->authenticate()]);
             throw new UnauthorizedHttpException('jwt-auth', '未登录');
         } catch (TokenExpiredException $exception) {
             try {
