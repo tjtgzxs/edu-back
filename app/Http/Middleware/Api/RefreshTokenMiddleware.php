@@ -4,6 +4,7 @@ namespace App\Http\Middleware\Api;
 
 use Auth;
 use Closure;
+use http\Client\Response;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\Http\Middleware\BaseMiddleware;
@@ -30,7 +31,8 @@ class RefreshTokenMiddleware extends BaseMiddleware
             if ($this->auth->parseToken()->authenticate()) {
                 return $next($request);
             }
-//            throw new UnauthorizedHttpException('jwt-auth', '未登录');
+            return \response()->json(['result'=>$this->auth->parseToken()->authenticate()]);
+            throw new UnauthorizedHttpException('jwt-auth', '未登录');
         } catch (TokenExpiredException $exception) {
             try {
                 $token = $this->auth->refresh();
