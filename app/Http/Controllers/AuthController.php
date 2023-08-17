@@ -6,6 +6,7 @@ use App\Teacher;
 use App\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -43,5 +44,16 @@ class AuthController extends Controller
 
 
 
+    }
+    public function redirectToLine()
+    {
+        return Socialite::driver('line')->redirect();
+    }
+
+    public function handleLineCallback()
+    {
+        $user = Socialite::driver('line')->user();
+
+        // 处理用户信息并进行登录
     }
 }
