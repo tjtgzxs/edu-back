@@ -33,7 +33,7 @@ class SchoolController extends AdminController
         $grid->actions(function (Grid\Displayers\Actions $actions) {
             // 去掉编辑
             $actions->disableEdit();
-
+            $actions->disableDelete();
             // 去掉查看
             $actions->disableView();
 
