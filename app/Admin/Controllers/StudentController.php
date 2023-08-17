@@ -86,7 +86,7 @@ class StudentController extends AdminController
     {
         $form = new Form(new Student());
 
-        $form->text('account', __('Account'));
+        $form->text('account', __('Account'))->creationRules(['required',"unique:students,account"]);
         $form->password('password', __('Password'));
         $form->hidden('name');
         $form->saving(function (Form $form){

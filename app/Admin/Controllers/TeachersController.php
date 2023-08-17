@@ -171,7 +171,7 @@ EOT;
     {
         $form = new Form(new Teacher());
 
-        $form->email('email', __('Email'))->required()->rules('required');
+        $form->email('email', __('Email'))->required()->rules('required')->creationRules(['required',"unique:teachers,email"]);
         $form->password('password', __('Password'))->required()->rules('required');
         $form->select('role',__('角色'))->options(
             [1=>'管理员', 2=>'普通老师']
