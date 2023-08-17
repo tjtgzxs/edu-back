@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\School;
 use App\Teacher;
 use Encore\Admin\Admin;
 use Encore\Admin\Controllers\AdminController;
@@ -60,7 +61,7 @@ class TeachersController extends AdminController
 
         });
 
-        $grid->disableCreateButton();
+//        $grid->disableCreateButton();
         $grid->disableRowSelector();
 //        $grid->disableActions();
         /**
@@ -169,11 +170,27 @@ EOT;
     {
         $form = new Form(new Teacher());
 
-        $form->text('name', __('Name'));
-        $form->email('email', __('Email'));
-        $form->password('password', __('Password'));
-        $form->number('role', __('Role'));
+        $form->email('email', __('Email'))->required()->rules('required');
+        $form->password('password', __('Password'))->required()->rules('required');
+        $form->select('role',__('角色'))->options(
+            [1=>'管理员', 2=>'普通老师']
+        )->default(2)->rules("required|min:1");
+        $form->hidden('name');
+        $form->saving(function (Form $form){
+            $form->name=$form->email;
+        });
+        $form->multipleSelect('schools',__('学校'))->required()->rules('required')->options(School::all()->pluck('name','id'));
+        $form->footer(function ($footer){
+            $footer->disableViewCheck();
 
+            // disable `Continue editing` checkbox
+            $footer->disableEditingCheck();
+
+            // disable `Continue Creating` checkbox
+            $footer->disableCreatingCheck();
+        });
+        $form->isCreating();
+        $form->confirm('确定提交吗？');
         return $form;
     }
 
