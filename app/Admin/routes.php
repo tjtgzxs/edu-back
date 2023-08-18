@@ -16,6 +16,7 @@ Route::group([
     $router->get('teachers/pass/{id}', 'TeachersController@pass')->name('teachers.pass');
     $router->resource('students', StudentController::class);
     $router->post('teachers/send', 'TeachersController@sendMessage')->name('teachers.chat');
+    $router->post('students/send', 'StudentController@sendMessage')->name('students.chat');
     $router->resource('schools', SchoolController::class);
 
 });

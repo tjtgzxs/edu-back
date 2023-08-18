@@ -100,11 +100,11 @@ class TeachersController extends AdminController
             });
         });
         $('.send').unbind('click').click(function() {
-            var student_id = $(this).data('id');
+            var teacher_id = $(this).data('id');
             message=prompt("请输入消息");
             data={
                 'message':message,
-                'student_id':student_id,
+                'teacher_id':teacher_id,
                 '_token': LA.token
                 
             };
@@ -211,7 +211,7 @@ EOT;
     public function sendMessage(Request $request)
     {
         $message = $request->message;
-        $targetStudentId = $request->student_id;
+        $targetTeacherId = $request->teacher_id;
         $fromManagerId =AdminUser::user()->id;
         $options = [
             'cluster' => env('PUSHER_APP_CLUSTER'),
@@ -227,7 +227,7 @@ EOT;
 
         $pusher->trigger('private-chat', 'client-message', [
             'message' => $message,
-            'targetStudentId' => $targetStudentId,
+            'targetStudentId' => $targetTeacherId,
             'fromManagerId' => $fromManagerId
         ]);
 
