@@ -30,6 +30,8 @@ Route::middleware('cors')->group(function () {
 
     });
     Route::post('login', 'AuthController@login');
+    Route::post('pusher/auth', 'PusherController@authenticate');
+
     Route::middleware('api.refresh')->group(function () {
         Route::prefix('students')->group(function () {
             Route::get('teacher_list', 'StudentController@list');
