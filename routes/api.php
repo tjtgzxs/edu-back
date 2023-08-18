@@ -36,6 +36,7 @@ Route::middleware('cors')->group(function () {
         Route::prefix('students')->group(function () {
             Route::get('teacher_list', 'StudentController@list');
             Route::put('teacher_follow', 'StudentController@follow');
+            Route::get('info', 'StudentController@info');
         });
         Route::prefix('teachers')->group(function () {
             Route::get('teacher_auth', 'TeacherController@teacherAuth');
@@ -46,6 +47,7 @@ Route::middleware('cors')->group(function () {
             Route::post('create_teacher', 'TeacherController@createTeacher');
             Route::post('create_student', 'TeacherController@createStudent');
             Route::post('chat', 'TeacherController@sendMessage');
+            Route::get('info', 'TeacherController@info');
         });
 
 

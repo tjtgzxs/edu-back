@@ -194,7 +194,7 @@ EOT;
             $options
         );
 
-        $pusher->trigger('private-chat', 'client-message', [
+        $pusher->trigger('private-chat', 'client-message-'.$targetStudentId, [
             'message' => $message,
             'targetStudentId' => $targetStudentId,
             'fromManagerId' => $fromManagerId
