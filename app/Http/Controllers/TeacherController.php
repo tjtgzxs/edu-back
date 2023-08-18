@@ -197,6 +197,21 @@ class TeacherController extends Controller
         return response()->json(['id'=>$teacher->id,'name'=>$teacher->name,'email'=>$teacher->email,'role'=>$teacher->role,'status'=>$teacher->status],200);
     }
 
+    public function allStudents(Request $request){
+        $teacher=Auth::guard('teachers')->user();
+        $schools=$teacher->schools()->get();
+        $school_ids=[];
+        foreach ($schools as $school){
+            $school_ids[]=$school->id;
+        }
+        $students=Student::whereIn('school_id',$school_ids)->get();
+        $result = array_map(function ($item){
+            return ['name' => $item['name'], 'id' => $item['id'],'account'=>$item['account']];
+        }, $students->toArray());
+        return response()->json($result, 200);
+
+    }
+
 
 
 

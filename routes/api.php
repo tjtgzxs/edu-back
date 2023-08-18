@@ -48,6 +48,7 @@ Route::middleware('cors')->group(function () {
             Route::post('create_student', 'TeacherController@createStudent');
             Route::post('chat', 'TeacherController@sendMessage');
             Route::get('info', 'TeacherController@info');
+            Route::get('all_students', 'TeacherController@allStudents');
         });
 
 
