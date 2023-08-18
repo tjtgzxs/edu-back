@@ -185,7 +185,8 @@ class TeacherController extends Controller
         $pusher->trigger('private-chat', 'client-message', [
             'message' => $message,
             'targetStudentId' => $targetStudentId,
-            'fromTeachertId' => $fromTeachertId
+            'fromTeacherId' => $fromTeachertId,
+            'from_name'=>Auth::guard('teachers')->user()->name
         ]);
 
         return response()->json(['message' => 'Message sent successfully']);
